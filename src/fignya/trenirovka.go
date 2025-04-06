@@ -1,34 +1,19 @@
 package main
 
-import (
-	"fmt"
-	"strconv"
-)
+import "sync"
 
-// Функция для вычисления суммы
-func main() {
-	var input string
-	numbers := []int{}
+// Dish представляет собой структуру для хранения информации о блюде
+type Dish struct {
+	Name  string  // Название блюда
+	Price float64 // Цена блюда
+}
 
-	fmt.Println("Введите числа:(для завершения введите 'q')")
-	for {
-		fmt.Scan(&input)
-		if input == "q" {
-			break
-		}
-		number, err := strconv.Atoi(input)
-		if err != nil {
-			fmt.Println("Введено говно,введите число")
-			continue
-		}
-		numbers = append(numbers, number)
-	}
-	sum := 0
-	for _, n := range numbers {
-		sum += n
-
-		// 1
-
-	}
-	fmt.Println("текущая сумма равна", sum)
+// Menu представляет собой структуру для хранения списка блюд
+type Orders struct {
+	Dishes []Dish // Список блюд
+}
+type kitchen struct {
+	mu     sync.Mutex
+	orders []Orders
+	isbusy bool
 }
