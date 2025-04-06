@@ -27,6 +27,8 @@ func main() {
 	for _, n := range numbers {
 		sum += n
 
+		// 1
+
 	}
 	fmt.Println("текущая сумма равна", sum)
 }
