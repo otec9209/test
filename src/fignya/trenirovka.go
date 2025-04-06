@@ -32,3 +32,4 @@ func main() {
 	}
 	fmt.Println("текущая сумма равна", sum)
 }
+ fffffffffppppasafa
