@@ -6,11 +6,15 @@ import (
 )
 
 func main() {
-	n := 0
-	fmt.Print("Введите целое число: ")
-	_, err := fmt.Scan(&n)
+
+	var input string
+	fmt.Println("Введите целое число")
+
+	_, err := fmt.Scanln(&input)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("Ошибка ввода:", err)
+		return
 	}
-	fmt.Printf("Вы ввели число: %d\n", n)
+
+	log.Println("Вы ввели целое число:", input)
 }
