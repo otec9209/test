@@ -193,7 +193,7 @@ func bufferStageInt(done <-chan bool, c <-chan int) <-chan int {
 	return bufferedIntChan
 }
 
-// consumer - Потребитель данных от пайплайна
+// consumer - Потребитель данных от пайплайна2222222222
 func consumer(done <-chan bool, c <-chan int) {
 	for {
 		select {
@@ -204,7 +204,6 @@ func consumer(done <-chan bool, c <-chan int) {
 		}
 	}
 }
-
 func main() {
 	// Запускаем наш воображаемый источник данных,
 	// он же ответственен за сигнализирование о том,
