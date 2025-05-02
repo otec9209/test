@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 )
+
 func main() {
 
 	var input string
@@ -14,8 +15,6 @@ func main() {
 		log.Println("Ошибка ввода:", err)
 		return
 	}
-
-|
-	log.Println("Вы ввели следующие даннеы:", input) //я не знаю но что-то надо исправить по заданию, вношу эту строку
+?????
+	log.Println("Вы ввели следующие даннеы:", input) 
 }
-
