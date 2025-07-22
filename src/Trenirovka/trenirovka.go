@@ -1,43 +1,63 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"math/rand"
+	"net"
+	"time"
 )
 
-type nabor interface {
-	snat(amount float64) error
-	vnesti(amount float64)
-	balance() float64
-}
-type chelovek struct {
-	Name    string
-	Balance float64
-}
-
-func (c *chelovek) snat(amount float64) error {
-	if amount <= 0 {
-		return errors.New("сумма должна быть больше нуля")
-	}
-	if amount > c.Balance {
-		return errors.New("недостаточно средств")
-	}
-	c.Balance -= amount
-	return nil
-}
-func (c *chelovek) vnesti(amount float64) {
-	if amount > 0 {
-		c.Balance += amount
-	}
-}
-func (c *chelovek) balance() float64 {
-	return c.Balance
-}
-
 func main() {
+	// Массив с поговорками
+	proverbs := []string{
+		"Concurrency is not parallelism.",
+		"Make the zero value useful.",
+		"Cgo must always be guarded with build tags.",
+		"With the unsafe package there are no guarantees.",
+		"Don't just check errors, handle them gracefully.",
+	}
 
-	c := &chelovek{Name: "alexey", Balance: 2000}
-	err := c.snat(3000)
-	fmt.Println(err)
+	// Создаём сервер
+	listener, err := net.Listen("tcp", "127.0.0.1:8081")
+	if err != nil {
+		fmt.Println("Ошибка запуска сервера:", err)
+		return
+	}
+	defer listener.Close()
 
+	fmt.Println("Сервер запущен на 127.0.0.1:8081")
+
+	// Ждём подключений
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			fmt.Println("Ошибка подключения:", err)
+			continue
+		}
+
+		// Обработка клиента
+		go func(conn net.Conn) {
+			defer conn.Close()
+			fmt.Println("Клиент подключился:", conn.RemoteAddr())
+
+			// Инициализируем генератор случайных чисел
+			rand.Seed(time.Now().UnixNano())
+
+			// Бесконечный цикл: каждые 3 секунды отправляем поговорку
+			for {
+				// Выбираем случайную поговорку
+				quote := proverbs[rand.Intn(len(proverbs))]
+
+				// Отправляем клиенту
+				_, err := conn.Write([]byte(quote + "\n"))
+				if err != nil {
+					fmt.Println("Клиент отключился или ошибка:", err)
+					return
+				}
+
+				// Ждём 3 секунды
+				time.Sleep(3 * time.Second)
+			}
+		}(conn)
+	}
 }
