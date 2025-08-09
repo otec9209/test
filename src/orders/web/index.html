@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Новостной агрегатор</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .post { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .post h3 { margin: 0; }
+        .post p { color: #555; }
+        .post small { color: #999; }
+    </style>
+</head>
+<body>
+    <h1>📰 Новости</h1>
+    <div id="news">Загрузка...</div>
+
+    <script>
+        fetch('/api/posts')
+            .then(res => res.json())
+            .then(posts => {
+                const container = document.getElementById('news');
+                container.innerHTML = ''; // очистить "Загрузка..."
+
+                posts.forEach(post => {
+                    const div = document.createElement('div');
+                    div.className = 'post';
+                    div.innerHTML = `
+                        <h3><a href="${post.link}" target="_blank">${post.title}</a></h3>
+                        <p>${post.description || 'Нет описания'}</p>
+                        <small>${post.published}</small>
+                    `;
+                    container.appendChild(div);
+                });
+            })
+            .catch(err => {
+                document.getElementById('news').innerHTML = '❌ Ошибка загрузки новостей';
+                console.error(err);
+            });
+    </script>
+</body>
+</html>

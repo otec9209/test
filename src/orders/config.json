@@ -1,0 +1,9 @@
+{
+  "feeds": [
+    "https://www.sport-express.ru/services/materials/news/se/",
+    "https://news.sportbox.ru/RSS-NewsGamesNews",
+    "https://www.sport.ru/rssfeeds/news.rss"
+
+  ],
+  "poll_interval": 300
+}
